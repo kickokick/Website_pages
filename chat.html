@@ -6,12 +6,21 @@
   <head>
   <body>
     <h1 style="text-align:center"> Chat h1</h1>
-    <form action="/login_chat.html">
+    <form>
       <label for="fname">First name:</label><br>
       <input type="text" id="fname" name="fname" value="FirstName"><br>
       <label for="lname">Last name:</label><br>
       <input type="text" id="lname" name="lname" value="LastName"><br><br>
       <input type="submit" value="Submit">
     </form>
+    <script type="text/javascript">
+var Username = fname;
+var Lastname = lname;
+
+function docWrite(fname, lname) {
+    document.write(fname);
+    document.write(lname);
+}
+    </script>
   </body>
 </html>
