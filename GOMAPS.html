@@ -1,44 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Simple Map</title>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap&libraries=&v=weekly"
-      defer
-    ></script>
-    <style type="text/css">
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
+    <body onload="brython()">
+    <h1>Get a joke</h1>
 
-      /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-    <script>
-      "use strict";
+    <button id="joke-btn">Get Joke</button>
+    <div id="joke" class="card">Click the "get joke" button</div>
 
-      let map;
-
-      function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-          center: {
-            lat: -34.397,
-            lng: 150.644
-          },
-          zoom: 8
-        });
-      }
+    <!-- Ajax call -->
+    <script type="text/python" id="script3">
+      def webscrap_product(vendor,product,page):
+        if vendor == 'flipkart':
+          response = requests.get('https://www.flipkart.com/search?q={}&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off&oage={}'.format(product,page))
+          html_soup = BeautifulSoup(response.text,'html.parser')
+          mobile_data = html_soup.find_all('div',class_ = 'E2-pcE _1q8tSL')
+          mobile_name = []
+          mobile_price = []
+          mobile_star = []
+          total_ratings = []
+          total_review = []
+          vendor_list = []
+          product_list = []
+          import re
+          for each in mobile_data[1]:
+            try:
+              vendor_list.append(vendor)
+              product_list.append(product)
+              mobile_name.append(each.find('div','col col-7-12').find('div','_4rR01T').text)
+              mobile_price.append(re.findall('[0-9,]+',each.find('div','col col-5-12 nlI3QM').find('div','_30jeq3 _1_WHN1').text)[0])
+              total_ratings.append(re.findall('[0-9,]+',each.find('div','gUuXy-').find('span','_2_R_DZ').find('span').find_all('span')[0].text)[0])
+              total_review.append(re.findall('[0-9,]+',each.find('div','gUuXy-').find('span','_2_R_DZ').find('span').find_all('span')[2].text))
+              mobile_star.append(each.find('div','gUuXy-').find('div','_3LWZlK').text)
+            except:
+              pass
+        mobile_data_sql = list(zip(vendor_list,product_list,mobile_name,mobile_price,total_ratings,total_review,mobile_star))
+        print(*mobile_data_sql,sep='\n')
+      product = input("Enter product name: ")
+      webscrap_product('flipkart',product,1)
     </script>
-  </head>
-  <body>
-    <div id="map"></div>
   </body>
 </html>
