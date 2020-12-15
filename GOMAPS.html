@@ -7,39 +7,12 @@
     <body onload="brython()">
     <h1>Get a joke</h1>
 
-    <button id="joke-btn">Get Joke</button>
-    <div id="joke" class="card">Click the "get joke" button</div>
+        <button id="joke-btn">Press</button>
 
     <!-- Ajax call -->
     <script type="text/python" id="script3">
-      def webscrap_product(vendor,product,page):
-        if vendor == 'flipkart':
-          response = requests.get('https://www.flipkart.com/search?q={}&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off&oage={}'.format(product,page))
-          html_soup = BeautifulSoup(response.text,'html.parser')
-          mobile_data = html_soup.find_all('div',class_ = 'E2-pcE _1q8tSL')
-          mobile_name = []
-          mobile_price = []
-          mobile_star = []
-          total_ratings = []
-          total_review = []
-          vendor_list = []
-          product_list = []
-          import re
-          for each in mobile_data[1]:
-            try:
-              vendor_list.append(vendor)
-              product_list.append(product)
-              mobile_name.append(each.find('div','col col-7-12').find('div','_4rR01T').text)
-              mobile_price.append(re.findall('[0-9,]+',each.find('div','col col-5-12 nlI3QM').find('div','_30jeq3 _1_WHN1').text)[0])
-              total_ratings.append(re.findall('[0-9,]+',each.find('div','gUuXy-').find('span','_2_R_DZ').find('span').find_all('span')[0].text)[0])
-              total_review.append(re.findall('[0-9,]+',each.find('div','gUuXy-').find('span','_2_R_DZ').find('span').find_all('span')[2].text))
-              mobile_star.append(each.find('div','gUuXy-').find('div','_3LWZlK').text)
-            except:
-              pass
-        mobile_data_sql = list(zip(vendor_list,product_list,mobile_name,mobile_price,total_ratings,total_review,mobile_star))
-        print(*mobile_data_sql,sep='\n')
-      product = input("Enter product name: ")
-      webscrap_product('flipkart',product,1)
+      x = input("Enter a word")
+      print("https://www.google.com/search?q={}&rlz=1C1SQJL_enUS877US877&oq=query&aqs=chrome..69i57j0i433j0i20i263j0i433l2j69i60l3.1047j0j9&sourceid=chrome&ie=UTF-8".format(x))
     </script>
   </body>
 </html>
